@@ -1,0 +1,1 @@
+window.one = 1;
