@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "assette.gemspec",
     "examples/app/templates/foo/index.html.mustache",
     "examples/config.ru",
     "examples/defaults.rb",
