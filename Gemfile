@@ -8,6 +8,9 @@ group :development do
   gem "rcov", ">= 0"
 end
 
-gem "json"
-gem "haml"
+gem "rack", '~> 1'
+gem "thor", '~> 0'
+gem "json", '>= 1.4'
+gem "haml", '~> 3'
 gem "mime-types", ">= 1.16", :require => 'mime/types'
+gem "git"

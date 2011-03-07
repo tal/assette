@@ -1,7 +1,17 @@
 require 'yaml'
 
 module Assette
-  attr_accessor :config
+  def config(optional_path=nil)
+    return @config if @config && !optional_path
+    
+    f = %w{assets.yml config/assets.yml}
+    f.unshift(optional_path.to_s) if optional_path
+    f << File.join( File.dirname(__FILE__), '..', '..', 'examples', 'defaults.yml' )
+
+    p = f.find { |path| File.exist?(path) }
+    
+    @config = Assette::Config.load(p)
+  end
   
   class Config
     OPTIONS = [
@@ -26,10 +36,3 @@ module Assette
   end
   
 end
-
-f = %w{assets.yml config/assets.yml}
-f << File.join( File.dirname(__FILE__), '..', '..', 'examples', 'defaults.yml' )
-
-p = f.find { |path| File.exist?(path) }
-
-Assette.config = Assette::Config.load(p)

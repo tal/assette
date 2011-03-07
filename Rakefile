@@ -15,14 +15,18 @@ Jeweler::Tasks.new do |gem|
   gem.name = "assette"
   gem.homepage = "http://github.com/Talby/assette"
   gem.license = "MIT"
-  gem.summary = %Q{Asset manager thing}
-  gem.description = %Q{longer description of your gem}
+  gem.summary = %Q{Treat all assets as equal}
+  gem.description = %Q{Renders all asset types (coffeescript/sass/scss) as equals}
   gem.email = "me@tal.by"
   gem.authors = ["Tal Atlas"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-   gem.add_runtime_dependency 'mime-types', '>= 1.16'
-  #  gem.add_development_dependency 'rspec', '> 1.2.3'
+  gem.add_runtime_dependency "rack", '~> 1'
+  gem.add_runtime_dependency "thor", '~> 0'
+  gem.add_runtime_dependency "json", '>= 1.4'
+  gem.add_runtime_dependency "haml", '~> 3'
+  # gem.add_runtime_dependency "git"
+  gem.add_runtime_dependency "mime-types", ">= 1.16"
 end
 Jeweler::RubygemsDotOrgTasks.new
 

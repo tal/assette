@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+
+require 'assette'
+require 'assette/cli'
+require 'assette/server'
+
+
+Assette::CLI.start

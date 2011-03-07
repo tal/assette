@@ -59,7 +59,6 @@ module Assette
       if has_registered_reader? && (f = find_compiled_file)
         [200,{"Content-Type" => f.content_type},f]
       elsif (f = find_file) && path_mime_type
-        puts content_type
         [200,{"Content-Type" => content_type},f]
       else
         [404,{"Content-Type" => "text/plain"},["File Not Found"]]

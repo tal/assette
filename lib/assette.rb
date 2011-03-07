@@ -17,6 +17,7 @@ MIME::Types.add coffee_type, sass_type
 module Assette
   extend self
   CONFIG_WRAPPER = 'ASSETTE CONFIG'
+  VERSION = File.open(File.expand_path(File.dirname(__FILE__)+'/../VERSION')).read
 end
 
 %w{config reader readers compiled_file file template_set template}.each do |f|
