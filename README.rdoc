@@ -1,6 +1,6 @@
 = assette
 
-Description goes here.
+I really need to add documentation
 
 == Contributing to assette
  

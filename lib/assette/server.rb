@@ -2,8 +2,10 @@ module Assette
   # Methods for finding files are ugly, should fix someday
   class Server
     attr_reader :path
-    def initialize(path)
-      @path = path
+    def initialize(env)
+      @env = env
+      @path = env["PATH_INFO"]
+      
       Assette.config.asset_path
     end
     
@@ -44,7 +46,7 @@ module Assette
       Assette.config.file_paths.each do |p|
         new_path = File.join(p,path)
         if File.exist?(new_path)
-          f = File.open(new_path)
+          f = Rack::File.new(new_path).call(@env)
           # add in grabbing index.html files if no extension provided
         end
         
@@ -55,11 +57,10 @@ module Assette
     end
     
     def rack_resp
-      
       if has_registered_reader? && (f = find_compiled_file)
         [200,{"Content-Type" => f.content_type},f]
-      elsif (f = find_file) && path_mime_type
-        [200,{"Content-Type" => content_type},f]
+      elsif f = find_file
+        f
       else
         [404,{"Content-Type" => "text/plain"},["File Not Found"]]
       end
@@ -68,11 +69,9 @@ module Assette
     class << self
       
       def call(env)
-        s = new(env["PATH_INFO"])
+        s = new(env)
         
         s.rack_resp
-      # rescue => e
-      #   [500,{"Content-Type" => "text/plain"},[e.inspect]]
       end
       
     end

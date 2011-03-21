@@ -1,7 +1,12 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.0.1)
     diff-lcs (1.1.2)
+    execjs (0.1.0)
     git (1.2.5)
     haml (3.0.25)
     jeweler (1.5.2)
@@ -29,6 +34,8 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.0.0)
+  coffee-script (~> 2)
+  git
   haml (~> 3)
   jeweler (~> 1.5.2)
   json (>= 1.4)

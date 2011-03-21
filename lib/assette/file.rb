@@ -6,7 +6,7 @@ class Assette::File < ::File
   end
   
   def extension
-    m = path.match(/\.(\w+)$/)
+    m = filename.match(/\.(\w+)$/)
     m[1] if m
   end
   
@@ -67,8 +67,12 @@ class Assette::File < ::File
     File.dirname(path)
   end
   
+  def target_path
+    File.join(dirname,filename.gsub(reader_class.extension,target_class.extension))
+  end
+  
   def filename
-    path.gsub(dirname,'').gsub(/^\//,'')
+    File.basename(path)
   end
   
   def puts *args

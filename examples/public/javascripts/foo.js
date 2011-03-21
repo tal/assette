@@ -3,4 +3,4 @@
 // @require two.js
 // /ASSETTE CONFIG
 
-window.foo = 'foo';
+window.foo = 'foo' || "bar";

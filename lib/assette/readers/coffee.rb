@@ -1,4 +1,5 @@
 require 'open3'
+require 'coffee-script'
 
 class Assette::Reader::Coffee < Assette::Reader(:js)
   
@@ -9,6 +10,11 @@ class Assette::Reader::Coffee < Assette::Reader(:js)
   class << self
     
     def compile_str text
+      CoffeeScript.compile text
+    end
+    
+    # Compile coffeescript using coffee binary.
+    def compile_str_external text
       out = nil
 
       Open3.popen3('coffee -sc') do |stdin, stdout, stderr|

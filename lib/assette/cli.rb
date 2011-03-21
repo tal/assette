@@ -2,10 +2,20 @@ require 'thor'
 require 'rack'
 require 'rack/showexceptions'
 require 'assette/server'
+require 'fileutils'
+
+begin
+  require 'git'
+rescue LoadError
+end
 
 module Assette
   
   class CLI < Thor
+    ASSET_PREFIX_MATCHER = /^([a-f0-9]{9}|\d{6}_\d{6})\//
+    
+    
+    include Thor::Actions
     DEFAULT_PID_FILE = '.assette_pid'
     class_option :'config-file', :desc => 'config file to use', :type => :string
     
@@ -46,6 +56,7 @@ module Assette
       end
     end
     
+    desc "compile", "Compile all the assettes in a folder for static serving"
     def compile
       files = []
       
@@ -63,12 +74,26 @@ module Assette
         Dir.mkdir('assets')
       end
       
-      sha = Git.open('..').log.first.sha[0..8]
       
-      Dir.mkdir('assets/'+sha)
+      sha = Git.open('..').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")
+      
+      File.open("assets/version","w") {|f| f.write(sha)}
+      
+      container = File.join('assets',sha)
+      made_dirs = []
+      
+      say "Compiling all assete files to #{container}"
       
       files.each do |file|
+        target_path = file.target_path
         
+        Assette.config.file_paths.each do |p|
+          target_path.gsub!(p,'')
+        end
+        
+        new_path = File.join(container,target_path)
+        
+        create_file(new_path, file.all_code)
       end
       
     end

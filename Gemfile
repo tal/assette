@@ -14,3 +14,4 @@ gem "json", '>= 1.4'
 gem "haml", '~> 3'
 gem "mime-types", ">= 1.16", :require => 'mime/types'
 gem "git"
+gem "coffee-script", "~> 2"
