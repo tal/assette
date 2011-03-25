@@ -59,6 +59,14 @@ module Assette
     desc "compile", "Compile all the assettes in a folder for static serving"
     def compile
       files = []
+      Assette.config.compiling = true
+      
+      unless File.exist?('assets')
+        Dir.mkdir('assets')
+      end
+      
+      sha = Git.open('..').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")
+      Assette.config.sha = sha
       
       Assette.config.file_paths.each do |path|
         Assette::Reader::ALL.keys.each do |extension|
@@ -70,16 +78,14 @@ module Assette
       
       files = files.collect {|f| Assette::File.open(f)}
       
-      unless File.exist?('assets')
-        Dir.mkdir('assets')
-      end
-      
-      
-      sha = Git.open('..').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")
-      
       File.open("assets/version","w") {|f| f.write(sha)}
       
-      container = File.join('assets',sha)
+      container = if Assette.config.cache_method.to_s == 'path'
+        File.join(Assette.config.build_target,sha)
+      else
+        Assette.config.build_target
+      end
+      
       made_dirs = []
       
       say "Compiling all assete files to #{container}"

@@ -1,5 +1,6 @@
 module Assette
   class CompiledFile < Array
+    
     attr_reader :file
 
     def initialize(file)
@@ -10,9 +11,23 @@ module Assette
       c = []
       c << "\n"
       c << file.comment_str % "Start: #{d.path}"
-      c << d.code
+      c << code_for_dependency(d)
       c << file.comment_str % "End: #{d.path}"
+      
       self << c.join("\n")
+    end
+    
+    def post_process str
+      PostProcessor::POST_PROCESSORS[target_class.outputs].each do |processor|
+        p = processor.new(str)
+        str.replace(p.process)
+      end
+      
+      str
+    end
+    
+    def code_for_dependency d
+      post_process(d.code)
     end
 
     def content_type
@@ -29,7 +44,11 @@ module Assette
     end
 
     def mime_type
-      file.target_class.mime_type
+      target_class.mime_type
+    end
+    
+    def target_class
+      file.target_class
     end
 
   end

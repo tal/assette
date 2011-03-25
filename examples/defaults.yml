@@ -1,7 +1,0 @@
-file_paths:
-  - public
-
-asset_path: '{asdfasdf}'
-
-template_format: 'AT.one.two.t[{*path*}] = {*template*};'
-templates_path: app/templates

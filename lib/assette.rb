@@ -20,6 +20,7 @@ module Assette
   VERSION = File.open(File.expand_path(File.dirname(__FILE__)+'/../VERSION')).read
 end
 
-%w{config reader readers compiled_file file template_set template}.each do |f|
+%w{config reader readers post_processor post_processors
+  compiled_file file template_set template}.each do |f|
   require File.dirname(__FILE__)+'/assette/'+f
 end
