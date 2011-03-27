@@ -62,7 +62,11 @@ module Assette
       elsif f = find_file
         f
       else
-        [404,{"Content-Type" => "text/plain"},["File Not Found"]]
+        possible_paths = Assette.config.file_paths.collect do |p|
+          File.join(Dir.pwd,p,path)
+        end
+        
+        [404,{"Content-Type" => "text/plain"},["File Not Found\n#{possible_paths.join("\n")}"]]
       end
     end
     

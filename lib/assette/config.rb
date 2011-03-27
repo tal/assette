@@ -12,7 +12,7 @@ module Assette
   
   class Config    
     MULTIPLES = %w{file_path asset_host}.freeze
-    SINGLES = %w{asset_dir templates_path template_format}.freeze
+    SINGLES = %w{asset_dir templates_path template_format cache_method}.freeze
     BLOCKS = %w{after_compile}.freeze
     
     OPTIONS = begin

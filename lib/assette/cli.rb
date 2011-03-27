@@ -9,6 +9,24 @@ begin
 rescue LoadError
 end
 
+# Remove the chdir, not sure why he put that there.
+# Bad hack, gotta figure out another way to fix this
+class Rack::Server
+  def daemonize_app
+    if RUBY_VERSION < "1.9"
+      exit if fork
+      Process.setsid
+      exit if fork
+      # Dir.chdir "/"
+      STDIN.reopen "/dev/null"
+      STDOUT.reopen "/dev/null", "a"
+      STDERR.reopen "/dev/null", "a"
+    else
+      Process.daemon
+    end
+  end
+end
+
 module Assette
   
   class CLI < Thor
@@ -30,29 +48,35 @@ module Assette
     method_option :port, :aliases => '-p', :type => :numeric
     method_option :'dont-daemonize', :aliases => '-D', :type => :boolean
     method_option :pid, :type => :string, :default => DEFAULT_PID_FILE, :description => 'file to store pid in'
-    def server
-      opts = {}
-      opts[:Port] = options[:port] || 4747
-      opts[:config] = File.join(File.dirname(__FILE__),'run.ru')
+    def server(cmd = nil)
+      if cmd.nil? || cmd == 'start'
+        
+        opts = {}
+        opts[:Port] = options[:port] || 4747
+        opts[:config] = File.join(File.dirname(__FILE__),'run.ru')
       
-      unless options['dont-daemonize']
-        opts[:daemonize] = true
-        opts[:pid] = pid_file
-      end
+        unless options['dont-daemonize']
+          
+          if File.exist?(pid_file)
+            pid = File.open(pid_file).read.chomp.to_i
+            say "Server already running with PID #{pid}, killing before restart"
+            Process.kill("INT",pid)
+          end
+          
+          opts[:daemonize] = true
+          opts[:pid] = pid_file
+        end
       
-      say "Starting Assette server on port #{opts[:Port]}"
-      ret = Rack::Server.start(opts)
-    end
-    
-    desc "stop", "stops the assette server"
-    method_option :pid, :type => :string, :default => DEFAULT_PID_FILE, :description => 'file pid is stored in'
-    def stop
-      if File.exist?(pid_file)
-        pid = File.open(pid_file).read.chomp.to_i
-        say "Killing server with PID #{pid}"
-        Process.kill("INT",pid)
-      else
-        say "No pid file found at #{pid_file}"
+        say "Starting Assette server on port #{opts[:Port]}"
+        ret = Rack::Server.start(opts)
+      elsif cmd == 'stop'
+        if File.exist?(pid_file)
+          pid = File.open(pid_file).read.chomp.to_i
+          say "Killing server with PID #{pid}"
+          Process.kill("INT",pid)
+        else
+          say "No pid file found at #{pid_file}"
+        end
       end
     end
     
@@ -65,7 +89,7 @@ module Assette
         Dir.mkdir('assets')
       end
       
-      sha = Git.open('..').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")
+      sha = Git.open('.').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")
       Assette.config.sha = sha
       
       Assette.config.file_paths.each do |path|
