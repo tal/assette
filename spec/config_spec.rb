@@ -43,6 +43,10 @@ describe Assette::Config do
     it "should set templates format" do
       subject.template_format.should == 'GC.foo.t[{*path*}] = func({*template*});'
     end
+    
+    it "should set after compile" do
+      subject.after_compile.call.should == 3
+    end
   end
   
 end

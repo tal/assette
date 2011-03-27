@@ -6,7 +6,7 @@ module Assette
       @env = env
       @path = env["PATH_INFO"]
       
-      Assette.config.asset_path
+      # Assette.config.asset_path
     end
     
     def find_compiled_file
@@ -46,8 +46,8 @@ module Assette
       Assette.config.file_paths.each do |p|
         new_path = File.join(p,path)
         if File.exist?(new_path)
-          f = Rack::File.new(new_path).call(@env)
-          # add in grabbing index.html files if no extension provided
+          new_path = File.join(Dir.pwd,new_path)
+          f = Rack::File.new(p).call(@env)
         end
         
         break if f

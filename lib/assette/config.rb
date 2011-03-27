@@ -13,12 +13,14 @@ module Assette
   class Config    
     MULTIPLES = %w{file_path asset_host}.freeze
     SINGLES = %w{asset_dir templates_path template_format}.freeze
+    BLOCKS = %w{after_compile}.freeze
     
     OPTIONS = begin
       arr = MULTIPLES.collect do |m|
         "#{m}s"
       end
       arr += SINGLES
+      arr += BLOCKS
     end.freeze
     
     attr_reader *OPTIONS
@@ -104,6 +106,19 @@ module Assette
         eval <<-RB
         def #{s} v
           @__hsh__[:#{s}] = v
+        end
+        RB
+      end
+      
+      BLOCKS.each do |b|
+        eval <<-RB
+        def #{b} val=nil, &blk
+          if val
+            @__hsh__[:#{b}] ||= {}
+            @__hsh__[:#{b}][val] = blk
+          else
+            @__hsh__[:#{b}] = blk
+          end
         end
         RB
       end
