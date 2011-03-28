@@ -56,7 +56,7 @@ module Assette
           str = "window[#{var.to_json}] ||= {}"
         else
           str = used.join('.')
-          str << " = (#{str} || {})"
+          str << " ||= {}"
         end
         
         coffee << str

@@ -18,7 +18,9 @@ module Assette
     
     def local_path
       lp = path.gsub(Assette.config.templates_path,'')
-      lp.gsub(/((\.html)?\.\w+)$/,'').gsub(/^\//,'').gsub(/\/_/,'/')
+      lp.gsub!(/((\.html)?\.\w+)$/,'').gsub!(/^\//,'')
+      lp.gsub!(/\/_/,'/')
+      lp
     end
   end
   

@@ -12,6 +12,4 @@ describe Assette::Server do
   end
   
   it "should be implemented"
-  
-  it "should use Rack::File"
 end
