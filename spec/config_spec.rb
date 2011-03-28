@@ -41,7 +41,7 @@ describe Assette::Config do
     end
     
     it "should set templates format" do
-      subject.template_format.should == 'GC.foo.t[{*path*}] = func({*template*});'
+      subject.template_format.should == 'GC.foo.t[{*path*}] = Handlebars.compile({*template*});'
     end
     
     it "should set after compile" do

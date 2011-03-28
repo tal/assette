@@ -7,7 +7,7 @@ class Assette::Reader::Css < Assette::Reader(:css)
   class << self
     
     def comment_str
-      @comment_str ||= '/* %s */'
+      '/* %s */'
     end
     
   end

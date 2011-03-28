@@ -3,8 +3,7 @@ require 'sass'
 class Assette::Reader::Sass < Assette::Reader(:css)
   
   def compile
-    engine = ::Sass::Engine.new(text,options)
-    engine.to_css
+    ::Sass::Engine.new(text,options).to_css
   end
   
 private

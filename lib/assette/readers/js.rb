@@ -7,7 +7,7 @@ class Assette::Reader::Js < Assette::Reader(:js)
   class << self
     
     def comment_str
-      @comment_str ||= "// %s"
+      '// %s'
     end
   end
 end

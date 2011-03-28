@@ -2,7 +2,7 @@ class Assette::PostProcessor::CacheBuster < Assette::PostProcessor(:css)
   URL_MATCHER = /url\((?:["'])?(?!http)(?!\/\/)([\w\/\.\-\s\?=]+)(?:["'])?\)/i
   
   def should_process?
-    Assette.config.compiling? && Assette.config.asset_hosts?
+    Assette.config.compiling?
   end
   
   def processor

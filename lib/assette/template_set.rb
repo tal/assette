@@ -36,6 +36,13 @@ module Assette
       end
     end
     
+    def insert_preloader
+      p = Assette.config.template_preloader
+      if p && pp = Assette.config.find_file_from_relative_path(p)
+        Assette::File.open(pp).all_code
+      end
+    end
+    
     def compile
       coffee = Array.new
       
@@ -59,7 +66,9 @@ module Assette
         coffee << template.compile
       end
       
-      Assette::Reader::Coffee.compile_str(coffee.join("\n"))
+      t = Assette::Reader::Coffee.compile_str(coffee.join("\n"))
+      pre = insert_preloader
+      pre ? [pre,t].join("\n") : t
     end
     
     def storage_variable

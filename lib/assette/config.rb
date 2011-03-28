@@ -10,9 +10,10 @@ module Assette
     @config = Assette::Config.load(p)
   end
   
-  class Config    
+  class Config
     MULTIPLES = %w{file_path asset_host}.freeze
-    SINGLES = %w{asset_dir templates_path template_format cache_method}.freeze
+    SINGLES = %w{asset_dir templates_path template_format cache_method
+      template_preloader template_partial}.freeze
     BLOCKS = %w{after_compile}.freeze
     
     OPTIONS = begin
@@ -42,6 +43,21 @@ module Assette
       end
     end
     
+    def find_file_from_relative_path path
+      a = Assette.config.file_paths.find do |pp|
+        File.exist?(File.join(pp,path))
+      end
+      File.join(a,path)
+    end
+    
+    def find_target_from_relative_path path
+      Assette.config.file_paths.find do |p|
+        Assette::Reader.possible_targets(File.join(p,path)).find do |pp|
+          File.exist?(pp)
+        end
+      end
+    end
+    
     def build_target
       @asset_dir
     end
@@ -55,6 +71,7 @@ module Assette
     end
     
     def asset_host i
+      return '' unless asset_hosts?
       @asset_hosts[i % @asset_hosts.size]
     end
     

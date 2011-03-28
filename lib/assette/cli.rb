@@ -83,6 +83,7 @@ module Assette
     desc "compile", "Compile all the assettes in a folder for static serving"
     def compile
       files = []
+      all_files = []
       Assette.config.compiling = true
       
       unless File.exist?('assets')
@@ -93,10 +94,13 @@ module Assette
       Assette.config.sha = sha
       
       Assette.config.file_paths.each do |path|
+        all_files |= Dir[File.join(path,'**',"*")]
         Assette::Reader::ALL.keys.each do |extension|
           files |= Dir[File.join(path,'**',"*.#{extension}")]
         end
       end
+      
+      not_compiled = all_files - files
       
       files.delete_if {|f| f =~ /\/_/} # remove any mixins to speed up process
       
@@ -112,7 +116,7 @@ module Assette
       
       made_dirs = []
       
-      say "Compiling all assete files to #{container}"
+      say "Compiling all asset files to #{container}"
       
       files.each do |file|
         target_path = file.target_path
@@ -126,6 +130,17 @@ module Assette
         create_file(new_path, file.all_code)
       end
       
+      say "\nCopying all non-compiled assets to #{container}"
+      not_compiled.each do |file|
+        target_path = file.dup
+        Assette.config.file_paths.each do |p|
+          target_path.gsub!(p,'')
+        end
+        
+        new_path = File.join(container,target_path)
+        
+        copy_file(new_path, file)
+      end
     end
     
     def initialize(*)

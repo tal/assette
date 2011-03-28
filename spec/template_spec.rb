@@ -14,18 +14,22 @@ describe "Templates" do
   describe Assette::TemplateSet do
   
     it "should get correct list of files" do
-      f = Assette::Template.open("app/templates/foo/index.html.mustache")
+      f = Assette::Template.open("myapp/templates/foo/index.html.mustache")
       
       a = Assette::TemplateSet.new(:all)
       a.templates.should include f
-    
+      
+      p = Assette::Template.open("myapp/templates/foo/_partial.html.mustache")
       a = Assette::TemplateSet.new(:foo)
-      a.templates.should == [f]
+      a.templates.should == [p,f]
     end
     
     it "should compile" do
       a = Assette::TemplateSet.new(:all)
-      a.compile.should include('{{foo}}')
+      c = a.compile
+      c.should include('{{foo}}')
+      c.should include('Handlebars.registerPartial("foo/partial",')
+      c.should include('Handlebars.compile("<div>')
       
       a = Assette::TemplateSet.new(:foo)
       a.compile.should include('{{foo}}')
@@ -36,7 +40,7 @@ describe "Templates" do
   describe Assette::Template do
   
     subject do
-      Assette::Template.open("app/templates/foo/index.html.mustache")
+      Assette::Template.open("myapp/templates/foo/index.html.mustache")
     end
   
   end
