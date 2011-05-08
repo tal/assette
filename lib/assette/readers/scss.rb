@@ -1,9 +1,12 @@
-class Assette::Reader::Scss < Assette::Reader::Sass
+require './sass'
+module Assette
+  class Reader::Scss < Assette::Reader::Sass
   
-private
+  private
 
-  def options
-    super.merge :syntax => :scss
-  end
+    def options
+      super.merge :syntax => :scss
+    end
   
+  end
 end
