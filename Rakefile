@@ -24,7 +24,7 @@ Jeweler::Tasks.new do |gem|
   gem.add_runtime_dependency "rack", '~> 1'
   gem.add_runtime_dependency "thor", '~> 0'
   gem.add_runtime_dependency "json", '>= 1.4'
-  gem.add_runtime_dependency "haml", '~> 3'
+  gem.add_runtime_dependency "sass", '>= 3.1'
   gem.add_runtime_dependency "coffee-script", '~> 2'
   # gem.add_runtime_dependency "git"
   gem.add_runtime_dependency "mime-types", ">= 1.16"

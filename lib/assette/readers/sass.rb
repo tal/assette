@@ -1,5 +1,5 @@
-require 'haml'
 require 'sass'
+
 class Assette::Reader::Sass < Assette::Reader(:css)
   
   def compile
