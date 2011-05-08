@@ -65,6 +65,12 @@ module Assette
           
           opts[:daemonize] = true
           opts[:pid] = pid_file
+        else
+          Assette.logger.level = Logger::DEBUG
+          Assette.logger.datetime_format = "%H:%M:%S"
+          Assette.logger.formatter = Proc.new do |severity, datetime, progname, msg|
+            "#{severity}: #{progname} - #{msg}\n"
+          end
         end
       
         say "Starting Assette server on port #{opts[:Port]}"

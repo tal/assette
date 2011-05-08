@@ -41,6 +41,8 @@ class Assette::File < ::File
   
   def code
     reader_class.new(self).compile
+  rescue => e
+    target_class.error(e.to_s,path)
   end
   
   def all_code_array
@@ -68,7 +70,16 @@ class Assette::File < ::File
   end
   
   def target_path
-    File.join(dirname,filename.gsub(reader_class.extension,target_class.extension))
+    File.expand_path(File.join(dirname,filename.gsub(reader_class.extension,target_class.extension)))
+  end
+  
+  def relative_target_path
+    tp = target_path
+    Assette.config.file_paths.each do |fp|
+      f = File.expand_path(fp)
+      tp.gsub! f, ''
+    end
+    tp
   end
   
   def filename
@@ -102,9 +113,12 @@ class Assette::File < ::File
       
       p = ::File.expand_path(::File.join(dirname,m[1]))
       
+      Assette.logger.info("Dependecy Checking") {p}
+      
       # Check for _filename if filename doesn't exist
       unless ::File.exist?(p)
         p2 = p.gsub /(.*\/)?(.+)/, '\1_\2'
+        Assette.logger.info("Dependecy Checking") {p2}
         if ::File.exist?(p2)
           p = p2
         else
@@ -120,6 +134,8 @@ class Assette::File < ::File
       end
       
     end
+    
+    Assette.logger.debug('Dependencies') {"For: #{path}\n#{@dependencies.pretty_inspect}"}
     
     @dependencies
   end
@@ -166,13 +182,35 @@ class Assette::File < ::File
       code << f.comment_str % "Time taken to generate: #{Time.now-start}s"
     end
     
-    def rack_resp_if_exists path
+    def rack_resp_if_exists path, opts = {}
       return unless File.exist?(path)
       start = Time.now
       f = open(path)
-      code = f.all_code_array
+      
+      if opts[:deparr]
+        code = f.dependencies.collect do |d|
+          d.relative_target_path
+        end
+        
+        code << f.relative_target_path
+        
+        resp = {:dependencies => code, :target_type => f.target_class.mime_type, :target_extension => f.extension}
+        
+        return [200,{"Content-Type" => 'text/javascript'}, [resp.to_json]]
+      end
+      
+      if opts[:nodep]
+        code = [f.code]
+        type = f.target_class.mime_type
+      else
+        code = f.all_code_array
+        type = f.target_class.mime_type
+      end
+      
       code << "\n"
       code << f.comment_str % "Time taken to generate: #{Time.now-start}s"
+      
+      [200,{"Content-Type" => type.content_type},code]
     end
     
   end

@@ -6,6 +6,19 @@ module Assette
       @env = env
       @path = env["PATH_INFO"]
       
+      @params = env["QUERY_STRING"].split('&').inject({}) do |resp,v|
+        k,v = v.split('=')
+        
+        if v == '1' || v.nil?
+          v = true
+        elsif v == '0'
+          v = false
+        end
+        
+        resp[k.to_sym] = v
+        resp
+      end
+      
       # Assette.config.asset_path
     end
     
@@ -14,18 +27,21 @@ module Assette
       Assette.config.file_paths.each do |p|
         
         Assette::Reader.possible_targets(File.join(p,path)).each do |pp|
-          f = Assette::File.rack_resp_if_exists( pp )
+          Assette.logger.debug('Checking for compiled file') {pp}
+          f = Assette::File.rack_resp_if_exists( pp, @params )
+          Assette.logger.info("Found File") {"Compiled file at #{pp}"} if f
           break if f
         end
         
         break if f
       end
+      
       f
     end
     
     def path_extension
       m = path.match(/\.(\w+)$/)
-      m[1] if m
+      m ? m[1] : :none
     end
     
     def has_registered_reader?
@@ -47,6 +63,7 @@ module Assette
         new_path = File.join(p,path)
         if File.exist?(new_path)
           new_path = File.join(Dir.pwd,new_path)
+          Assette.logger.info("Found File") {"Raw file at #{new_path}"}
           f = Rack::File.new(p).call(@env)
         end
         
@@ -58,7 +75,7 @@ module Assette
     
     def rack_resp
       if has_registered_reader? && (f = find_compiled_file)
-        [200,{"Content-Type" => f.content_type},f]
+        f
       elsif f = find_file
         f
       else

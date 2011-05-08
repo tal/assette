@@ -6,7 +6,7 @@ module Assette
     f.unshift(optional_path.to_s) if optional_path
 
     p = f.find { |path| File.exist?(path) }
-    
+    raise "Can't find config file" unless p
     @config = Assette::Config.load(p)
   end
   
