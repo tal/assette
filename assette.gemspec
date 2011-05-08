@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tal Atlas"]
-  s.date = %q{2011-04-28}
+  s.date = %q{2011-05-07}
   s.default_executable = %q{assette}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
     "lib/assette/compiled_file.rb",
     "lib/assette/config.rb",
     "lib/assette/file.rb",
+    "lib/assette/middleware.rb",
     "lib/assette/post_processor.rb",
     "lib/assette/post_processors.rb",
     "lib/assette/post_processors/cache_buster.rb",
