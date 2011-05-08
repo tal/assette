@@ -1,4 +1,4 @@
-require './sass'
+require 'assette/readers/sass'
 module Assette
   class Reader::Scss < Assette::Reader::Sass
   
