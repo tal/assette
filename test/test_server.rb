@@ -75,6 +75,40 @@ class ServerTest < Test::Unit::TestCase
     has_bar_template
   end
   
+  def test_getting_js_dependencies
+    get "/javascripts/test.js?deparr"
+    json = nil
+    assert_nothing_raised do
+      json = JSON.parse(last_response.body)
+    end
+    
+    assert json['dependencies'].is_a?(Array)
+    assert_equal json['target_type'], 'application/javascript'
+    assert json['dependencies'].include?('/__templates/foo')
+    assert json['dependencies'].include?('/javascripts/one.js')
+    assert json['dependencies'].include?('/javascripts/test.js')
+  end
+  
+  def test_getting_js_dependencies
+    get '/stylesheets/two2.css?deparr'
+    json = nil
+    assert_nothing_raised do
+      json = JSON.parse(last_response.body)
+    end
+    
+    assert json['dependencies'].is_a?(Array)
+    assert_equal json['target_type'], 'text/css'
+    assert json['dependencies'].include?('/stylesheets/two2.css')
+    
+    
+    get '/stylesheets/two.css?deparr'
+    json = JSON.parse(last_response.body)
+    
+    assert json['dependencies'].is_a?(Array)
+    assert_equal json['target_type'], 'text/css'
+    assert_equal json['dependencies'], ['/stylesheets/one.css','/stylesheets/two.css']
+  end
+  
 private
   
   def is_js?
