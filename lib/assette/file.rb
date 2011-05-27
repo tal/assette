@@ -35,8 +35,9 @@ class Assette::File < ::File
     @mime_type ||= MIME::Types.type_for(path).first
   end
   
-  def comment_str
-    target_class.comment_str
+  def comment_str(str = nil)
+    comm = target_class.comment_str
+    str ? (comm % str) : comm
   end
   
   def code

@@ -19,7 +19,7 @@ MIME::Types.add coffee_type, sass_type
 module Assette
   extend self
   CONFIG_WRAPPER = 'ASSETTE CONFIG'
-  VERSION = File.open(File.expand_path(File.dirname(__FILE__)+'/../VERSION')).read
+  VERSION = File.open(File.expand_path(File.dirname(__FILE__)+'/../VERSION')).read.freeze
   
   def logger
     @logger ||= Logger.new(STDOUT)
