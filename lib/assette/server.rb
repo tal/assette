@@ -73,7 +73,17 @@ module Assette
       f
     end
     
+    def looking_for_template?
+      m = path.match /__templates\/(.+)/
+      m[1].gsub(/.js$/,'').split(':') if m
+    end
+    
     def rack_resp
+      if templates = looking_for_template?
+        set = TemplateSet.new(templates)
+        return [200,{"Content-Type" => Reader::Js.mime_type.content_type},[set.compile]]
+      end
+      
       if has_registered_reader? && (f = find_compiled_file)
         f
       elsif f = find_file

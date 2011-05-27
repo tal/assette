@@ -46,13 +46,15 @@ class Assette::File < ::File
     target_class.error(e.to_s,path)
   end
   
+  def template_set
+    Assette::TemplateSet.new(templates)
+  end
+  
   def all_code_array
     dep = Assette::CompiledFile.new(self)
     
     if !templates.empty?
-      set = Assette::TemplateSet.new(templates)
-      
-      dep << set.compile
+      dep << template_set.compile
     end
     
     dependencies.each {|d| dep.add_dependency(d)}
@@ -173,6 +175,18 @@ class Assette::File < ::File
     end
   end
   
+  def path_array
+    code = []
+    
+    code << "/__templates/#{templates.join(':')}" unless templates.empty?
+    
+    code += dependencies.collect do |d|
+      d.relative_target_path
+    end
+    
+    code << relative_target_path
+  end
+  
   class << self
     
     def all_code_for *args
@@ -183,19 +197,19 @@ class Assette::File < ::File
       code << f.comment_str % "Time taken to generate: #{Time.now-start}s"
     end
     
+    # This code is aweful. gotta fix it
+    #shitty
     def rack_resp_if_exists path, opts = {}
       return unless File.exist?(path)
       start = Time.now
       f = open(path)
       
       if opts[:deparr]
-        code = f.dependencies.collect do |d|
-          d.relative_target_path
-        end
-        
-        code << f.relative_target_path
+        code = f.path_array
         
         resp = {:dependencies => code, :target_type => f.target_class.mime_type, :target_extension => f.extension}
+        
+        resp[:generation_time] = Time.now-start
         
         return [200,{"Content-Type" => 'text/javascript'}, [resp.to_json]]
       end

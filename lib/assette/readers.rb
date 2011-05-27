@@ -4,6 +4,8 @@
   coffee
   sass
   scss
-}.each do |f|
-  require File.join(File.dirname(__FILE__),'readers',"#{f}.rb")
+}.collect do |f|
+  File.join(File.dirname(__FILE__),'readers',"#{f}.rb")
+end.each do |f|
+  require f
 end

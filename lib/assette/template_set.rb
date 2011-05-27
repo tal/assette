@@ -1,4 +1,16 @@
 module Assette
+  #shitty
+  def preloader_file
+    p = Assette.config.template_preloader
+    pp = Assette.config.find_file_from_relative_path(p) if p
+    Assette::File.open(pp) if pp
+  end
+  
+  #shitty
+  def preloader_code
+    pp = preloader_file
+    pp.all_code if pp
+  end
   
   class TemplateSet
     attr_reader :templates
@@ -36,14 +48,7 @@ module Assette
       end
     end
     
-    def insert_preloader
-      p = Assette.config.template_preloader
-      if p && pp = Assette.config.find_file_from_relative_path(p)
-        Assette::File.open(pp).all_code
-      end
-    end
-    
-    def compile
+    def compile(opts={})
       coffee = Array.new
       
       vars = storage_variable
@@ -67,7 +72,7 @@ module Assette
       end
       
       t = Assette::Reader::Coffee.compile_str(coffee.join("\n"))
-      pre = insert_preloader
+      pre = Assette.preloader_code unless opts[:no_preloader]
       pre ? [pre,t].join("\n") : t
     end
     

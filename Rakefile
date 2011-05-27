@@ -26,7 +26,6 @@ Jeweler::Tasks.new do |gem|
   gem.add_runtime_dependency "json", '>= 1.4'
   gem.add_runtime_dependency "sass", '>= 3.1'
   gem.add_runtime_dependency "coffee-script", '~> 2'
-  # gem.add_runtime_dependency "git"
   gem.add_runtime_dependency "mime-types", ">= 1.16"
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -46,3 +45,10 @@ task :default => :spec
 
 require 'yard'
 YARD::Rake::YardocTask.new
+
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
+end
