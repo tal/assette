@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tal Atlas"]
-  s.date = %q{2011-05-08}
+  s.date = %q{2011-06-14}
   s.default_executable = %q{assette}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    ".irbrc",
     ".rspec",
     "Gemfile",
     "Gemfile.lock",
@@ -30,6 +31,7 @@ Gem::Specification.new do |s|
     "assette.gemspec",
     "bin/assette",
     "examples/config/assets.rb",
+    "examples/myapp/templates/bar/index.html.mustache",
     "examples/myapp/templates/foo/_partial.html.mustache",
     "examples/myapp/templates/foo/index.html.mustache",
     "examples/public/images/test.pdf",
@@ -63,14 +65,18 @@ Gem::Specification.new do |s|
     "lib/assette/server.rb",
     "lib/assette/template.rb",
     "lib/assette/template_set.rb",
+    "lib/assette/view_helper.rb",
     "spec/assette_spec.rb",
     "spec/config_spec.rb",
     "spec/file_spec.rb",
+    "spec/helper_spec.rb",
     "spec/post_processor_spec.rb",
     "spec/reader_spec.rb",
     "spec/server_spec.rb",
     "spec/spec_helper.rb",
-    "spec/template_spec.rb"
+    "spec/template_spec.rb",
+    "test/helper.rb",
+    "test/test_server.rb"
   ]
   s.homepage = %q{http://github.com/Talby/assette}
   s.licenses = ["MIT"]
@@ -82,11 +88,14 @@ Gem::Specification.new do |s|
     "spec/assette_spec.rb",
     "spec/config_spec.rb",
     "spec/file_spec.rb",
+    "spec/helper_spec.rb",
     "spec/post_processor_spec.rb",
     "spec/reader_spec.rb",
     "spec/server_spec.rb",
     "spec/spec_helper.rb",
-    "spec/template_spec.rb"
+    "spec/template_spec.rb",
+    "test/helper.rb",
+    "test/test_server.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -105,6 +114,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<rack-test>, [">= 0"])
       s.add_runtime_dependency(%q<rack>, ["~> 1"])
       s.add_runtime_dependency(%q<thor>, ["~> 0"])
       s.add_runtime_dependency(%q<json>, [">= 1.4"])
@@ -124,6 +134,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<rack-test>, [">= 0"])
       s.add_dependency(%q<rack>, ["~> 1"])
       s.add_dependency(%q<thor>, ["~> 0"])
       s.add_dependency(%q<json>, [">= 1.4"])
@@ -144,6 +155,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<rack-test>, [">= 0"])
     s.add_dependency(%q<rack>, ["~> 1"])
     s.add_dependency(%q<thor>, ["~> 0"])
     s.add_dependency(%q<json>, [">= 1.4"])
