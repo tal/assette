@@ -12,6 +12,7 @@ template_partial 'Handlebars.registerPartial({*path*},{*template*});'
 
 template_format 'GC.foo.t[{*path*}] = Handlebars.compile({*template*});'
 
+cache_method 'param'
 
 after_compile do
   a = 1

@@ -29,5 +29,11 @@ class Assette::Reader::Css < Assette::Reader(:css)
       '/* %s */'
     end
     
+    def tag path
+      <<-HTML
+        <link href="#{path}" rel="stylesheet" type="text/css"  media="all" />
+      HTML
+    end
+    
   end
 end

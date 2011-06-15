@@ -14,7 +14,7 @@ class Assette::File < ::File
     if klass = Assette::Reader::ALL[extension]
       klass
     else
-      raise "Can't find reader class Assette::Reader::#{extension.capitalize}"
+      raise Assette::Reader::UnknownReader, "Can't find reader class Assette::Reader::#{extension.capitalize}"
     end
   end
   
@@ -27,7 +27,7 @@ class Assette::File < ::File
     if @target_class = Assette::Reader::ALL[ex.to_s]
       @target_class
     else
-      raise "Can't find reader class Assette::Reader::#{ex.capitalize}"
+      raise Assette::Reader::UnknownReader, "Can't find reader class Assette::Reader::#{ex.capitalize}"
     end
   end
   
@@ -65,7 +65,11 @@ class Assette::File < ::File
   end
   
   def all_code
-    all_code_array.join("\n")
+    if target_class.respond_to? :compile_array
+      target_class.compile_array all_code_array
+    else
+      all_code_array.join("\n")
+    end
   end
   
   def dirname
@@ -83,6 +87,10 @@ class Assette::File < ::File
       tp.gsub! f, ''
     end
     tp
+  end
+  
+  def dev_tag
+    target_class.tag "#{relative_target_path}?nodep"
   end
   
   def filename

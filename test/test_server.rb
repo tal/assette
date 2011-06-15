@@ -16,6 +16,17 @@ class ServerTest < Test::Unit::TestCase
     is_js?
     has_pre_template
     has_foo_template
+    has_bar_template false
+  end
+  
+  def test_nodep
+    get "/javascripts/test.js?nodep"
+    
+    assert last_response.ok?
+    is_js?
+    has_pre_template false
+    has_foo_template false
+    has_bar_template false
   end
   
   def test_two_scss
@@ -119,8 +130,8 @@ private
     assert_equal last_response.content_type, 'text/css'
   end
   
-  def has_pre_template
-    assert_match 'Handlebars.registerPartial =', last_response.body
+  def has_pre_template(tf = true)
+    has_or_not tf, /Handlebars\.registerPartial =/, last_response.body
   end
   
   def has_foo_template(tf = true)

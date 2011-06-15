@@ -21,5 +21,11 @@ class Assette::Reader::Js < Assette::Reader(:js)
     def comment_str
       '// %s'
     end
+    
+    def tag path
+      <<-HTML
+        <script src="#{path}" type="text/javascript"></script>
+      HTML
+    end
   end
 end

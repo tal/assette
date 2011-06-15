@@ -3,6 +3,7 @@ module Assette
     extend self
     OUTPUTS = Hash.new {|h,k| h[k] = []}
     ALL = {}
+    OUTPUT_MAP = {}
     
     def possible_targets path
       match = path.match(/(.+\.)([a-z]+)$/i)
@@ -11,6 +12,10 @@ module Assette
       ext = match[2]
       
       OUTPUTS[ext.to_sym].collect { |cla| file + cla.extension }
+    end
+    
+    def target_class ex
+      Assette::Reader::ALL[Assette::Reader::OUTPUT_MAP[ex]]
     end
     
     class Base
@@ -74,6 +79,7 @@ module Assette
           
           if ex = extension
             Assette::Reader::ALL[ex] = self
+            Assette::Reader::OUTPUT_MAP[ex] = outputs.to_s
           end
         end
         
@@ -85,6 +91,7 @@ module Assette
     
     end
     
+    class UnknownReader < StandardError; end
   end
   
   def self.Reader(type)

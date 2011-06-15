@@ -31,6 +31,6 @@ module Assette
 end
 
 %w{config reader readers post_processor post_processors
-  compiled_file file template_set template}.each do |f|
+  compiled_file file template_set template view_helper}.each do |f|
   require File.dirname(__FILE__)+'/assette/'+f
 end

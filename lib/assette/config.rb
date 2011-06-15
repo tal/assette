@@ -10,6 +10,10 @@ module Assette
     @config = Assette::Config.load(p)
   end
   
+  def compiled_path i, path
+    File.join(Assette.config.asset_host(i),Assette.config.compiled_path(path))
+  end
+  
   class Config
     MULTIPLES = %w{file_path asset_host}.freeze
     SINGLES = %w{asset_dir templates_path template_format cache_method
@@ -26,6 +30,7 @@ module Assette
     
     attr_reader *OPTIONS
     attr_accessor :compiling, :sha
+    attr_writer :env
     
     DEFAULTS = {
       :asset_dir => 'assets',
@@ -41,6 +46,33 @@ module Assette
       args.each do |k,v|
         instance_variable_set "@#{k}", v.dup.freeze
       end
+    end
+    
+    def env
+      return @env if @env
+      
+      case
+      when defined?(ENVIRONMENT)
+        ENVIRONMENT
+      when defined?(Merb)
+        Merb.env
+      when defined?(Rails)
+        Rails.env
+      else
+        ENV['RACK_ENV'] || ENV['RAILS_ENV']
+      end
+    end
+    
+    def env? e
+      env == e
+    end
+    
+    def prod?
+      env == 'production'
+    end
+    
+    def dev?
+      !prod?
     end
     
     def find_file_from_relative_path path
