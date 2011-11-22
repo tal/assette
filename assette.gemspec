@@ -5,15 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assette}
-  s.version = "0.0.6"
+  s.version = "0.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Tal Atlas"]
-  s.date = %q{2011-06-14}
-  s.default_executable = %q{assette}
+  s.authors = [%q{Tal Atlas}]
+  s.date = %q{2011-11-22}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
-  s.executables = ["assette"]
+  s.executables = [%q{assette}]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -30,11 +29,14 @@ Gem::Specification.new do |s|
     "VERSION",
     "assette.gemspec",
     "bin/assette",
+    "examples/.asset_key",
+    "examples/.assette_pid",
     "examples/config/assets.rb",
     "examples/myapp/templates/bar/index.html.mustache",
     "examples/myapp/templates/foo/_partial.html.mustache",
     "examples/myapp/templates/foo/index.html.mustache",
     "examples/public/images/test.pdf",
+    "examples/public/index.html",
     "examples/public/javascripts/foo.js",
     "examples/public/javascripts/handlebars.js",
     "examples/public/javascripts/one.js",
@@ -79,9 +81,9 @@ Gem::Specification.new do |s|
     "test/test_server.rb"
   ]
   s.homepage = %q{http://github.com/Talby/assette}
-  s.licenses = ["MIT"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
+  s.licenses = [%q{MIT}]
+  s.require_paths = [%q{lib}]
+  s.rubygems_version = %q{1.8.8}
   s.summary = %q{Treat all assets as equal}
   s.test_files = [
     "examples/config/assets.rb",
