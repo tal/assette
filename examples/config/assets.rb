@@ -15,7 +15,6 @@ template_format 'GC.foo.t[{*path*}] = Handlebars.compile({*template*});'
 
 cache_method 'path'
 
-after_compile do
-  a = 1
-  a + 2
+after_compile do |sha|
+  
 end

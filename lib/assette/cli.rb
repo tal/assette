@@ -155,6 +155,8 @@ module Assette
       version_file = Assette.config.asset_version_file
       File.delete(version_file) if File.exist?(version_file)
       create_file(version_file,sha)
+
+      Assette.config.after_compile.call(sha)
     end
     
     def initialize(*)

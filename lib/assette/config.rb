@@ -38,7 +38,8 @@ module Assette
       :asset_hosts => [],
       :file_paths => %w{public},
       :templates_path => 'app/templates',
-      :template_format => 'AT.t[{*path*}] = {*template*};'
+      :template_format => 'AT.t[{*path*}] = {*template*};',
+      :after_compile => Proc.new {}
     }.freeze
     
     def initialize args = {}
