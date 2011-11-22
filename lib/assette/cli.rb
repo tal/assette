@@ -152,7 +152,7 @@ module Assette
       end
 
 
-      version_file = '.asset_key' # 'assets/version'
+      version_file = Assette.config.asset_version_file
       File.delete(version_file) if File.exist?(version_file)
       create_file(version_file,sha)
     end

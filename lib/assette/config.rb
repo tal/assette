@@ -16,8 +16,8 @@ module Assette
   
   class Config
     MULTIPLES = %w{file_path asset_host}.freeze
-    SINGLES = %w{asset_dir templates_path template_format cache_method
-      template_preloader template_partial}.freeze
+    SINGLES = %w{asset_dir templates_path template_format cache_method 
+      template_preloader template_partial asset_version_file}.freeze
     BLOCKS = %w{after_compile}.freeze
     
     OPTIONS = begin
@@ -34,6 +34,7 @@ module Assette
     
     DEFAULTS = {
       :asset_dir => 'assets',
+      :asset_version_file => 'assets/version',
       :asset_hosts => [],
       :file_paths => %w{public},
       :templates_path => 'app/templates',

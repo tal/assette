@@ -5,6 +5,7 @@ asset_host 'http://cdn.gilt.com'
 asset_hosts 'http://cdn1.gilt.com', 'http://cdn2.gilt.com'
 
 asset_dir 'myassets'
+asset_version_file 'myassets/version'
 templates_path 'myapp/templates'
 
 template_preloader 'javascripts/handlebars.js'
