@@ -6,4 +6,9 @@ require 'assette/cli'
 require 'assette/server'
 
 
+if ARGV.include?('--trace')
+  Assette.logger = Logger.new(STDOUT)
+end
+
+Assette::CLI.source_root(Dir.pwd)
 Assette::CLI.start

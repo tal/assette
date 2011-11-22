@@ -22,7 +22,7 @@ module Assette
   VERSION = File.open(File.expand_path(File.dirname(__FILE__)+'/../VERSION')).read.freeze
   
   def logger
-    @logger ||= Logger.new(STDOUT)
+    @logger ||= Logger.new('/dev/null')
   end
   
   def logger=(l)

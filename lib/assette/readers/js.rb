@@ -27,5 +27,16 @@ class Assette::Reader::Js < Assette::Reader(:js)
         <script src="#{path}" type="text/javascript"></script>
       HTML
     end
+
+    def include path
+      <<-JS
+        (function() {
+          var e = document.createElement('script'); e.async = false;
+          e.src = '#{path}?nodep';
+          document.getElementsByTagName('head')[0].appendChild(e);
+        }());
+
+      JS
+    end
   end
 end

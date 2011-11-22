@@ -119,6 +119,26 @@ class ServerTest < Test::Unit::TestCase
     assert_equal json['target_type'], 'text/css'
     assert_equal json['dependencies'], ['/stylesheets/one.css','/stylesheets/two.css']
   end
+
+  def test_getting_include_file_css
+    get '/stylesheets/two2.css?dev'
+
+    is_css?
+    assert last_response.ok?
+    assert last_response.body.include?('/stylesheets/two2.css?nodep')
+  end
+
+  def test_getting_include_file_js
+    get "/javascripts/test.js?dev"
+
+    is_js?
+
+    assert last_response.ok?
+    assert last_response.body.include?('/__templates/foo?nodep')
+    assert last_response.body.include?('/javascripts/one.js?nodep')
+    assert last_response.body.include?('/javascripts/test.js?nodep')
+    assert_equal last_response.body, ''
+  end
   
 private
   

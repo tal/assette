@@ -34,6 +34,13 @@ class Assette::Reader::Css < Assette::Reader(:css)
         <link href="#{path}" rel="stylesheet" type="text/css"  media="all" />
       HTML
     end
+
+    def include path
+      <<-CSS
+        #{comment_str % path}
+        @import url("#{path}?nodep");
+      CSS
+    end
     
   end
 end

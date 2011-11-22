@@ -219,12 +219,20 @@ class Assette::File < ::File
         
         resp[:generation_time] = Time.now-start
         
-        return [200,{"Content-Type" => 'text/javascript'}, [resp.to_json]]
+        return [200,{"Content-Type" => 'application/json'}, [resp.to_json]]
       end
       
       if opts[:nodep]
         code = [f.code]
         type = f.target_class.mime_type
+      elsif opts[:dev]
+
+        code = f.path_array.collect do |path|
+          f.target_class.include(path)
+        end
+
+        type = f.target_class.mime_type
+
       else
         code = f.all_code_array
         type = f.target_class.mime_type

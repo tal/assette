@@ -74,7 +74,7 @@ module Assette
     end
     
     def looking_for_template?
-      m = path.match /__templates\/(.+)/
+      m = path.match(/__templates\/(.+)/)
       m[1].gsub(/.js$/,'').split(':') if m
     end
     

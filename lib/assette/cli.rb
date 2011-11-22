@@ -36,6 +36,7 @@ module Assette
     include Thor::Actions
     DEFAULT_PID_FILE = '.assette_pid'
     class_option :'config-file', :desc => 'config file to use', :type => :string
+    class_option :trace, :type => :boolean, :default => false
     
     map "-v" => :version
     
@@ -112,8 +113,6 @@ module Assette
       
       files = files.collect {|f| Assette::File.open(f)}
       
-      File.open("assets/version","w") {|f| f.write(sha)}
-      
       container = if Assette.config.cache_method.to_s == 'path'
         File.join(Assette.config.build_target,sha)
       else
@@ -125,28 +124,37 @@ module Assette
       say "Compiling all asset files to #{container}"
       
       files.each do |file|
-        target_path = file.target_path
+        target_path = file.relative_target_path
         
         Assette.config.file_paths.each do |p|
-          target_path.gsub!(p,'')
+          # target_path.gsub!(p,'')
         end
         
         new_path = File.join(container,target_path)
         
+        Assette.logger.debug("Compiling file") {"#{file.path} -> #{new_path}"}
         create_file(new_path, file.all_code)
       end
       
       say "\nCopying all non-compiled assets to #{container}"
       not_compiled.each do |file|
+        next if File.directory?(file)
         target_path = file.dup
+
         Assette.config.file_paths.each do |p|
-          target_path.gsub!(p,'')
+          target_path.gsub!(Regexp.new(p+'/'),'')
         end
         
         new_path = File.join(container,target_path)
         
-        copy_file(new_path, file)
+        Assette.logger.debug("Copying file") {"#{file} -> #{new_path}"}
+        copy_file(file,new_path)
       end
+
+
+      version_file = '.asset_key' # 'assets/version'
+      File.delete(version_file) if File.exist?(version_file)
+      create_file(version_file,sha)
     end
     
     def initialize(*)
@@ -175,4 +183,4 @@ module Assette
     end
   end
   
-end
+end 
