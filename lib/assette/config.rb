@@ -41,15 +41,19 @@ module Assette
       :templates_path => 'app/templates',
       :template_format => 'AT.t[{*path*}] = {*template*};',
       :after_compile => Proc.new {},
-      :uglifier => {:copyright => false, :mangle => false},
-      :minify => true
+      :uglifier => {:copyright => false, :mangle => false}
     }.freeze
     
     def initialize args = {}
       args = DEFAULTS.merge(args||{})
       
       args.each do |k,v|
-        instance_variable_set "@#{k}", v.dup.freeze
+        begin
+          var = v.dup.freeze
+        rescue TypeError
+          var = v
+        end
+        instance_variable_set "@#{k}", var
       end
     end
     
