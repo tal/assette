@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
     "lib/assette/post_processor.rb",
     "lib/assette/post_processors.rb",
     "lib/assette/post_processors/cache_buster.rb",
+    "lib/assette/post_processors/js_min.rb",
     "lib/assette/reader.rb",
     "lib/assette/readers.rb",
     "lib/assette/readers/coffee.rb",
