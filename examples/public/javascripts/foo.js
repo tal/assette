@@ -4,3 +4,9 @@
 // /ASSETTE CONFIG
 
 window.foo = 'foo' || "bar";
+
+function Foo() {
+  var omgz = 'yo';
+
+  return omgz;
+}

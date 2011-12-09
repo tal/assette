@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assette}
-  s.version = "0.0.8"
+  s.version = "0.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Tal Atlas}]
-  s.date = %q{2011-11-22}
+  s.date = %q{2011-12-09}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
   s.executables = [%q{assette}]
@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
     "assette.gemspec",
     "bin/assette",
     "examples/.asset_key",
-    "examples/.assette_pid",
     "examples/config/assets.rb",
     "examples/myapp/templates/bar/index.html.mustache",
     "examples/myapp/templates/foo/_partial.html.mustache",
@@ -111,6 +110,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<mime-types>, [">= 1.16"])
       s.add_runtime_dependency(%q<git>, [">= 0"])
       s.add_runtime_dependency(%q<coffee-script>, ["~> 2"])
+      s.add_runtime_dependency(%q<uglifier>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.4.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -122,6 +122,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<json>, [">= 1.4"])
       s.add_runtime_dependency(%q<sass>, [">= 3.1"])
       s.add_runtime_dependency(%q<coffee-script>, ["~> 2"])
+      s.add_runtime_dependency(%q<uglifier>, [">= 0"])
       s.add_runtime_dependency(%q<mime-types>, [">= 1.16"])
     else
       s.add_dependency(%q<rack>, ["~> 1"])
@@ -131,6 +132,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<mime-types>, [">= 1.16"])
       s.add_dependency(%q<git>, [">= 0"])
       s.add_dependency(%q<coffee-script>, ["~> 2"])
+      s.add_dependency(%q<uglifier>, [">= 0"])
       s.add_dependency(%q<rspec>, ["~> 2.4.0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -142,6 +144,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<json>, [">= 1.4"])
       s.add_dependency(%q<sass>, [">= 3.1"])
       s.add_dependency(%q<coffee-script>, ["~> 2"])
+      s.add_dependency(%q<uglifier>, [">= 0"])
       s.add_dependency(%q<mime-types>, [">= 1.16"])
     end
   else
@@ -152,6 +155,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<mime-types>, [">= 1.16"])
     s.add_dependency(%q<git>, [">= 0"])
     s.add_dependency(%q<coffee-script>, ["~> 2"])
+    s.add_dependency(%q<uglifier>, [">= 0"])
     s.add_dependency(%q<rspec>, ["~> 2.4.0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -163,6 +167,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<json>, [">= 1.4"])
     s.add_dependency(%q<sass>, [">= 3.1"])
     s.add_dependency(%q<coffee-script>, ["~> 2"])
+    s.add_dependency(%q<uglifier>, [">= 0"])
     s.add_dependency(%q<mime-types>, [">= 1.16"])
   end
 end

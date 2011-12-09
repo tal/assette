@@ -10,6 +10,25 @@ describe Assette::PostProcessor do
   after(:all) do
     Dir.chdir(@dir_before)
   end
+
+  describe Assette::PostProcessor::JSMin do
+    before(:all) do
+      Assette.config.compiling = true
+      Assette.config.sha = "1234567"
+    end
+    
+    after(:all) do
+      Assette.config.compiling = nil
+    end
+
+    subject do
+      Assette::File.open('public/javascripts/foo.js')
+    end
+
+    it "should minify the js" do
+      subject.all_code.should == ''
+    end
+  end
   
   describe Assette::PostProcessor::CacheBuster do
     

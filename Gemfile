@@ -16,3 +16,4 @@ gem "sass", '>= 3.1'
 gem "mime-types", ">= 1.16", :require => 'mime/types'
 gem "git"
 gem "coffee-script", "~> 2"
+gem "uglifier"
