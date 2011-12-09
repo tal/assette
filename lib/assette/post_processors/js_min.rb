@@ -32,7 +32,6 @@ module Assette
     end
 
     def processor
-      puts @str
       Uglifier.compile(@str)
     end
 
