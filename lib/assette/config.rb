@@ -17,7 +17,8 @@ module Assette
   class Config
     MULTIPLES = %w{file_path asset_host}.freeze
     SINGLES = %w{asset_dir templates_path template_format cache_method 
-      template_preloader template_partial asset_version_file uglifier}.freeze
+      template_preloader template_partial asset_version_file uglifier
+      minify}.freeze
     BLOCKS = %w{after_compile}.freeze
     
     OPTIONS = begin
@@ -40,7 +41,8 @@ module Assette
       :templates_path => 'app/templates',
       :template_format => 'AT.t[{*path*}] = {*template*};',
       :after_compile => Proc.new {},
-      :uglifier => {:copyright => false, :mangle => false}
+      :uglifier => {:copyright => false, :mangle => false},
+      :minify => true
     }.freeze
     
     def initialize args = {}
@@ -103,6 +105,10 @@ module Assette
     
     def compiling?
       !!compiling
+    end
+
+    def minify?
+      !!minify
     end
     
     def asset_host i

@@ -28,7 +28,7 @@ module Assette
   class PostProcessor::JSMin < Assette::PostProcessor(:js)
 
     def should_process?
-      Assette.config.compiling?
+      Assette.config.compiling? && Assette.config.minify?
     end
 
     def processor
