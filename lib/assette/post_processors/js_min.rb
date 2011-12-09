@@ -32,7 +32,7 @@ module Assette
     end
 
     def processor
-      Uglifier.compile(@str)
+      Uglifier.compile(@str, :copyright => false)
     end
 
   end
