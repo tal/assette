@@ -18,7 +18,7 @@ module Assette
     MULTIPLES = %w{file_path asset_host}.freeze
     SINGLES = %w{asset_dir templates_path template_format cache_method 
       template_preloader template_partial asset_version_file uglifier
-      minify}.freeze
+      minify less sass}.freeze
     BLOCKS = %w{after_compile}.freeze
     
     OPTIONS = begin
@@ -30,7 +30,7 @@ module Assette
     end.freeze
     
     attr_reader *OPTIONS
-    attr_accessor :compiling, :sha
+    attr_accessor :compiling, :sha, :minifying
     attr_writer :env
     
     DEFAULTS = {
@@ -41,7 +41,9 @@ module Assette
       :templates_path => 'app/templates',
       :template_format => 'AT.t[{*path*}] = {*template*};',
       :after_compile => Proc.new {},
-      :uglifier => {:copyright => false, :mangle => false}
+      :uglifier => {:copyright => false, :mangle => false},
+      :less => {},
+      :sass => {}
     }.freeze
     
     def initialize args = {}
@@ -113,6 +115,18 @@ module Assette
 
     def minify?
       !!minify
+    end
+
+    def minifying?
+      !!(@minifying && minify?)
+    end
+
+    def minifying
+      return @minifying unless block_given?
+      return unless minify?
+      @minifying = true
+      yield
+      @minifying = false
     end
     
     def asset_host i

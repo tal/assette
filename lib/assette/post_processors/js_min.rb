@@ -28,7 +28,12 @@ module Assette
   class PostProcessor::JSMin < Assette::PostProcessor(:js)
 
     def should_process?
-      Assette.config.compiling? && Assette.config.minify?
+      Assette.logger.debug("Testing post processor #{self.class}") {"Assette.config.compiling?: #{Assette.config.compiling?} Assette.config.minifying?: #{Assette.config.minifying?} minify?: #{minify?}"}
+      Assette.config.minifying? && minify?
+    end
+
+    def minify?
+      @args[:parent].minify? if @args[:parent]
     end
 
     def processor

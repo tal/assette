@@ -49,6 +49,14 @@ class Assette::File < ::File
   def template_set
     Assette::TemplateSet.new(templates)
   end
+
+  def minify?
+    check_config_flag 'minify'
+  end
+
+  def never_minify?
+    check_config_flag(/never[\s_]?minify/i)
+  end
   
   def all_code_array
     dep = Assette::CompiledFile.new(self)
@@ -182,6 +190,16 @@ class Assette::File < ::File
       yield(l)
     end
   end
+
+  def check_config_flag f
+    flag = false
+    reg = /@#{f}/i
+    read_config do |line|
+      flag = !!(line =~ reg)
+      break if flag
+    end
+    flag
+  end
   
   def path_array
     code = []
@@ -228,6 +246,7 @@ class Assette::File < ::File
       elsif opts[:dev]
 
         code = f.path_array.collect do |path|
+          path = "http://#{opts[:env]['HTTP_HOST']}#{path}"
           f.target_class.include(path)
         end
 

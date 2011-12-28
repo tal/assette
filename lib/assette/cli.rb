@@ -88,6 +88,8 @@ module Assette
     end
     
     desc "compile", "Compile all the assettes in a folder for static serving"
+    method_option :minified, :type => :boolean, :default => false, :description => "only compile minified files"
+    method_option :static_min, :type => :boolean, :default => false, :description => "only copy static files and minified files"
     def compile
       files = []
       all_files = []
@@ -122,8 +124,12 @@ module Assette
       made_dirs = []
       
       say "Compiling all asset files to #{container}"
+
+      files_to_minify = []
       
       files.each do |file|
+        files_to_minify.push(file) if file.minify?
+        next if options.minified? || options.static_min?
         target_path = file.relative_target_path
         
         Assette.config.file_paths.each do |p|
@@ -135,10 +141,24 @@ module Assette
         Assette.logger.debug("Compiling file") {"#{file.path} -> #{new_path}"}
         create_file(new_path, file.all_code)
       end
+
+      Assette.config.minifying do
+        say "\nCreating minified versions of files" unless files_to_minify.empty?
+
+        files_to_minify.each do |file|
+          target_path = file.relative_target_path
+
+          new_path = File.join(container,target_path).sub(/(\.[A-Za-z0-9]{2,10})$/,'.min\1')
+
+          Assette.logger.debug("Compiling minified file") {"#{file.path} -> #{new_path}"}
+          create_file(new_path, file.all_code)
+        end
+      end
       
       say "\nCopying all non-compiled assets to #{container}"
       not_compiled.each do |file|
         next if File.directory?(file)
+        next if options.minified?
         target_path = file.dup
 
         Assette.config.file_paths.each do |p|

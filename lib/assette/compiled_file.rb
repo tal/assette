@@ -17,9 +17,10 @@ module Assette
       self << c.join("\n")
     end
     
-    def post_process str
+    def post_process file
+      str = file.code
       PostProcessor::POST_PROCESSORS[target_class.outputs].each do |processor|
-        p = processor.new(str)
+        p = processor.new(file, :parent => @file)
         str.replace(p.process)
       end
       
@@ -27,7 +28,7 @@ module Assette
     end
     
     def code_for_dependency d
-      post_process(d.code)
+      post_process(d)
     end
 
     def content_type

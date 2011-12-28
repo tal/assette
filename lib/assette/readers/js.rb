@@ -29,13 +29,15 @@ class Assette::Reader::Js < Assette::Reader(:js)
     end
 
     def include path
+      # <<-JS
+      #   (function() {
+      #     var e = document.createElement('script'); e.async = false;
+      #     e.src = '#{path}?nodep';
+      #     document.getElementsByTagName('head')[0].appendChild(e);
+      #   }());
+      # JS
       <<-JS
-        (function() {
-          var e = document.createElement('script'); e.async = false;
-          e.src = '#{path}?nodep';
-          document.getElementsByTagName('head')[0].appendChild(e);
-        }());
-
+        document.write("<script src='#{path}?nodep'></script>")
       JS
     end
   end

@@ -28,7 +28,7 @@ module Assette
         
         Assette::Reader.possible_targets(File.join(p,path)).each do |pp|
           Assette.logger.debug('Checking for compiled file') {pp}
-          f = Assette::File.rack_resp_if_exists( pp, @params )
+          f = Assette::File.rack_resp_if_exists( pp, @params.merge(:env => @env) )
           Assette.logger.info("Found File") {"Compiled file at #{pp}"} if f
           break if f
         end

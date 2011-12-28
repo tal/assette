@@ -7,11 +7,11 @@ class Assette::Reader::Sass < Assette::Reader(:css)
   end
   
 private
-  
+
   def options
-    {
-      :syndtax => :sass,
+    Assette.config.sass.merge({
+      :syntax => :sass,
       :load_paths => [File.expand_path(@file.dirname)]|Assette.config.file_paths
-    }
+    })
   end
 end
