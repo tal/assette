@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assette}
-  s.version = "0.0.13"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Tal Atlas}]
-  s.date = %q{2011-12-09}
+  s.date = %q{2011-12-28}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
   s.executables = [%q{assette}]
@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
     "examples/public/javascripts/test.coffee",
     "examples/public/javascripts/three.js",
     "examples/public/javascripts/two.js",
+    "examples/public/stylesheets/less.less",
     "examples/public/stylesheets/one.css",
     "examples/public/stylesheets/one1.sass",
     "examples/public/stylesheets/two.css",
@@ -55,12 +56,14 @@ Gem::Specification.new do |s|
     "lib/assette/post_processor.rb",
     "lib/assette/post_processors.rb",
     "lib/assette/post_processors/cache_buster.rb",
+    "lib/assette/post_processors/css_min.rb",
     "lib/assette/post_processors/js_min.rb",
     "lib/assette/reader.rb",
     "lib/assette/readers.rb",
     "lib/assette/readers/coffee.rb",
     "lib/assette/readers/css.rb",
     "lib/assette/readers/js.rb",
+    "lib/assette/readers/less.rb",
     "lib/assette/readers/sass.rb",
     "lib/assette/readers/scss.rb",
     "lib/assette/run.ru",
@@ -108,6 +111,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<thor>, ["~> 0"])
       s.add_runtime_dependency(%q<json>, [">= 1.4"])
       s.add_runtime_dependency(%q<sass>, [">= 3.1"])
+      s.add_runtime_dependency(%q<less>, [">= 0"])
       s.add_runtime_dependency(%q<mime-types>, [">= 1.16"])
       s.add_runtime_dependency(%q<git>, [">= 0"])
       s.add_runtime_dependency(%q<coffee-script>, ["~> 2"])
@@ -122,6 +126,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<thor>, ["~> 0"])
       s.add_runtime_dependency(%q<json>, [">= 1.4"])
       s.add_runtime_dependency(%q<sass>, [">= 3.1"])
+      s.add_runtime_dependency(%q<less>, [">= 2.0"])
       s.add_runtime_dependency(%q<coffee-script>, ["~> 2"])
       s.add_runtime_dependency(%q<uglifier>, [">= 0"])
       s.add_runtime_dependency(%q<mime-types>, [">= 1.16"])
@@ -130,6 +135,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<thor>, ["~> 0"])
       s.add_dependency(%q<json>, [">= 1.4"])
       s.add_dependency(%q<sass>, [">= 3.1"])
+      s.add_dependency(%q<less>, [">= 0"])
       s.add_dependency(%q<mime-types>, [">= 1.16"])
       s.add_dependency(%q<git>, [">= 0"])
       s.add_dependency(%q<coffee-script>, ["~> 2"])
@@ -144,6 +150,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<thor>, ["~> 0"])
       s.add_dependency(%q<json>, [">= 1.4"])
       s.add_dependency(%q<sass>, [">= 3.1"])
+      s.add_dependency(%q<less>, [">= 2.0"])
       s.add_dependency(%q<coffee-script>, ["~> 2"])
       s.add_dependency(%q<uglifier>, [">= 0"])
       s.add_dependency(%q<mime-types>, [">= 1.16"])
@@ -153,6 +160,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<thor>, ["~> 0"])
     s.add_dependency(%q<json>, [">= 1.4"])
     s.add_dependency(%q<sass>, [">= 3.1"])
+    s.add_dependency(%q<less>, [">= 0"])
     s.add_dependency(%q<mime-types>, [">= 1.16"])
     s.add_dependency(%q<git>, [">= 0"])
     s.add_dependency(%q<coffee-script>, ["~> 2"])
@@ -167,6 +175,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<thor>, ["~> 0"])
     s.add_dependency(%q<json>, [">= 1.4"])
     s.add_dependency(%q<sass>, [">= 3.1"])
+    s.add_dependency(%q<less>, [">= 2.0"])
     s.add_dependency(%q<coffee-script>, ["~> 2"])
     s.add_dependency(%q<uglifier>, [">= 0"])
     s.add_dependency(%q<mime-types>, [">= 1.16"])
