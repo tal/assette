@@ -60,8 +60,12 @@ module Assette
           
           if File.exist?(pid_file)
             pid = File.open(pid_file).read.chomp.to_i
-            say "Server already running with PID #{pid}, killing before restart"
-            Process.kill("INT",pid)
+            begin
+              Process.kill("INT",pid)
+              say "Server already running with PID #{pid}, killing before restart"
+            rescue Errno::ESRCH
+
+            end
           end
           
           opts[:daemonize] = true
