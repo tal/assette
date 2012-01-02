@@ -84,16 +84,18 @@ module Assette
         return [200,{"Content-Type" => Reader::Js.mime_type.content_type},[set.compile]]
       end
       
-      if has_registered_reader? && (f = find_compiled_file)
-        f
-      elsif f = find_file
-        f
-      else
-        possible_paths = Assette.config.file_paths.collect do |p|
-          File.join(Dir.pwd,p,path)
-        end
-        
-        [404,{"Content-Type" => "text/plain"},["File Not Found\n#{possible_paths.join("\n")}"]]
+      begin
+        if has_registered_reader? && (f = find_compiled_file)
+          f
+        elsif f = find_file
+          f
+        else
+          possible_paths = Assette.config.file_paths.collect do |p|
+            File.join(Dir.pwd,p,path)
+          end
+          
+          [404,{"Content-Type" => "text/plain"},["File Not Found\n#{possible_paths.join("\n")}"]]
+        end  
       end
     end
     

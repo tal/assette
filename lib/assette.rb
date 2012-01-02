@@ -28,6 +28,8 @@ module Assette
   def logger=(l)
     @logger = l
   end
+
+  class CompilationError < StandardError; end;
 end
 
 %w{config reader readers post_processor post_processors

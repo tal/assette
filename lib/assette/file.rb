@@ -141,7 +141,7 @@ class Assette::File < ::File
         if ::File.exist?(p2)
           p = p2
         else
-          raise "Cannot find dependancy #{p} or #{p2} as required in #{path}"
+          raise UnknownDependency, "Cannot find dependancy #{p} or #{p2} as required in #{path}"
         end
       end
       
@@ -229,40 +229,46 @@ class Assette::File < ::File
       return unless File.exist?(path)
       start = Time.now
       f = open(path)
-      
-      if opts[:deparr]
-        code = f.path_array
-        
-        resp = {:dependencies => code, :target_type => f.target_class.mime_type, :target_extension => f.extension}
-        
-        resp[:generation_time] = Time.now-start
-        
-        return [200,{"Content-Type" => 'application/json'}, [resp.to_json]]
-      end
-      
-      if opts[:nodep]
-        code = [f.code]
-        type = f.target_class.mime_type
-      elsif opts[:dev]
-
-        code = f.path_array.collect do |path|
-          path = "http://#{opts[:env]['HTTP_HOST']}#{path}"
-          f.target_class.include(path)
+      begin    
+        if opts[:deparr]
+          code = f.path_array
+          
+          resp = {:dependencies => code, :target_type => f.target_class.mime_type, :target_extension => f.extension}
+          
+          resp[:generation_time] = Time.now-start
+          
+          return [200,{"Content-Type" => 'application/json'}, [resp.to_json]]
         end
+        
+        if opts[:nodep]
+          code = [f.code]
+          type = f.target_class.mime_type
+        elsif opts[:dev]
 
-        type = f.target_class.mime_type
+          code = f.path_array.collect do |path|
+            path = "http://#{opts[:env]['HTTP_HOST']}#{path}"
+            f.target_class.include(path)
+          end
 
-      else
-        code = f.all_code_array
-        type = f.target_class.mime_type
+          type = f.target_class.mime_type
+
+        else
+          code = f.all_code_array
+          type = f.target_class.mime_type
+        end
+        
+        code << "\n"
+        code << f.comment_str % "Time taken to generate: #{Time.now-start}s"
+        
+        [200,{"Content-Type" => type.content_type},code]
+      rescue Assette::CompilationError => e
+        target = f.target_class
+        [200,{"Content-Type" => target.mime_type.content_type},target.error(e.to_s,path)]
       end
-      
-      code << "\n"
-      code << f.comment_str % "Time taken to generate: #{Time.now-start}s"
-      
-      [200,{"Content-Type" => type.content_type},code]
     end
     
   end
+
+  class UnknownDependency < Assette::CompilationError; end
   
 end

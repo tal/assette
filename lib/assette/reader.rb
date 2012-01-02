@@ -91,7 +91,7 @@ module Assette
     
     end
     
-    class UnknownReader < StandardError; end
+    class UnknownReader < CompilationError; end
   end
   
   def self.Reader(type)

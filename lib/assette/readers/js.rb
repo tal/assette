@@ -16,6 +16,8 @@ class Assette::Reader::Js < Assette::Reader(:js)
       else
         "console.error(#{str.to_json});"
       end
+
+      "console.error(#{str.to_json});alert(#{str.inspect.to_json});"
     end
     
     def comment_str
