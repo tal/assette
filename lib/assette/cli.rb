@@ -117,7 +117,7 @@ module Assette
       
       files.delete_if {|f| f =~ /\/_/} # remove any mixins to speed up process
       
-      files = files.collect {|f| Assette::File.open(f)}
+      # files = files.collect {|f| Assette::File.open(f)}
       
       container = if Assette.config.cache_method.to_s == 'path'
         File.join(Assette.config.build_target,sha)
@@ -131,31 +131,40 @@ module Assette
 
       files_to_minify = []
       
-      files.each do |file|
-        files_to_minify.push(file) if file.minify?
-        next if options.minified? || options.static_min?
-        target_path = file.relative_target_path
-        
-        Assette.config.file_paths.each do |p|
-          # target_path.gsub!(p,'')
+      files.each do |file_path|
+        Assette::File.open(file_path) do |file|
+
+          if file.minify?
+            files_to_minify.push(file_path)
+          else
+            unless options.minified? || options.static_min?
+              target_path = file.relative_target_path
+              
+              Assette.config.file_paths.each do |p|
+                # target_path.gsub!(p,'')
+              end
+              
+              new_path = File.join(container,target_path)
+              
+              Assette.logger.debug("Compiling file") {"#{file.path} -> #{new_path}"}
+              create_file(new_path, file.all_code)
+            end
+          end
         end
-        
-        new_path = File.join(container,target_path)
-        
-        Assette.logger.debug("Compiling file") {"#{file.path} -> #{new_path}"}
-        create_file(new_path, file.all_code)
       end
 
       Assette.config.minifying do
         say "\nCreating minified versions of files" unless files_to_minify.empty?
 
-        files_to_minify.each do |file|
-          target_path = file.relative_target_path
+        files_to_minify.each do |file_path|
+          Assette::File.open(file_path) do |file|
+            target_path = file.relative_target_path
 
-          new_path = File.join(container,target_path).sub(/(\.[A-Za-z0-9]{2,10})$/,'.min\1')
+            new_path = File.join(container,target_path).sub(/(\.[A-Za-z0-9]{2,10})$/,'.min\1')
 
-          Assette.logger.debug("Compiling minified file") {"#{file.path} -> #{new_path}"}
-          create_file(new_path, file.all_code)
+            Assette.logger.debug("Compiling minified file") {"#{file.path} -> #{new_path}"}
+            create_file(new_path, file.all_code)
+          end
         end
       end
       

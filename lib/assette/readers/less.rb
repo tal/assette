@@ -26,4 +26,14 @@ private
   def options
     Assette.config.less
   end
+
+  class << self
+    def tag path
+      tag = <<-HTML
+        <link href="#{path}" rel="stylesheet/less" type="text/css"  media="all" />
+      HTML
+
+      tag << %Q{<script src="#{Assette.config.less_js_path}?nodep" type="text/javascript"></script>} if Assette.config.less_js_path
+    end
+  end
 end

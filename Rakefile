@@ -23,7 +23,7 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Tal Atlas"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  gem.add_runtime_dependency "rack", '~> 1'
+  gem.add_runtime_dependency "rack", '>= 1.4'
   gem.add_runtime_dependency "thor", '~> 0'
   gem.add_runtime_dependency "json", '>= 1.4'
   gem.add_runtime_dependency "sass", '>= 3.1'
