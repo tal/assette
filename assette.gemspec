@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assette}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Tal Atlas}]
-  s.date = %q{2012-01-10}
+  s.date = %q{2012-01-11}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
   s.executables = [%q{assette}]
@@ -122,7 +122,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rack-test>, [">= 0"])
-      s.add_runtime_dependency(%q<rack>, ["~> 1"])
+      s.add_runtime_dependency(%q<rack>, [">= 1.4"])
       s.add_runtime_dependency(%q<thor>, ["~> 0"])
       s.add_runtime_dependency(%q<json>, [">= 1.4"])
       s.add_runtime_dependency(%q<sass>, [">= 3.1"])
@@ -146,7 +146,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rack-test>, [">= 0"])
-      s.add_dependency(%q<rack>, ["~> 1"])
+      s.add_dependency(%q<rack>, [">= 1.4"])
       s.add_dependency(%q<thor>, ["~> 0"])
       s.add_dependency(%q<json>, [">= 1.4"])
       s.add_dependency(%q<sass>, [">= 3.1"])
@@ -171,7 +171,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rack-test>, [">= 0"])
-    s.add_dependency(%q<rack>, ["~> 1"])
+    s.add_dependency(%q<rack>, [">= 1.4"])
     s.add_dependency(%q<thor>, ["~> 0"])
     s.add_dependency(%q<json>, [">= 1.4"])
     s.add_dependency(%q<sass>, [">= 3.1"])
