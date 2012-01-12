@@ -20,7 +20,8 @@ module Assette
     def post_process file
       str = file.code
       PostProcessor::POST_PROCESSORS[target_class.outputs].each do |processor|
-        p = processor.new(file, :parent => @file)
+        p = processor.new(file, str, :parent => @file)
+
         str.replace(p.process)
       end
       

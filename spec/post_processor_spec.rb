@@ -26,6 +26,7 @@ describe Assette::PostProcessor do
     end
 
     it "should minify the js" do
+      pending
       subject.all_code.should == ''
     end
   end
@@ -42,6 +43,7 @@ describe Assette::PostProcessor do
     end
     
     subject do
+      # Assette::File.open('public/stylesheets/another2.less')
       Assette::File.open('public/stylesheets/two2.scss')
     end
     

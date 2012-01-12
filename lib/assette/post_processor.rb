@@ -9,9 +9,9 @@ module Assette
     
     class Base
       
-      def initialize(file, args={})
+      def initialize(file, str=nil, args={})
         @file = file
-        @str = file.code; @args = args
+        @str = str||file.code; @args = args
       end
       
       def should_process?

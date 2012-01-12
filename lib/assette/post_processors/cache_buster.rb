@@ -8,10 +8,10 @@ module Assette
   
     def processor
       @@i ||= -1
-    
+      
       @str.gsub(URL_MATCHER) do |s|
         url = Assette.compiled_path @@i+=1, $1
-      
+
         %Q{url("#{url}")}
       end
     end
