@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{assette}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Tal Atlas}]
-  s.date = %q{2012-01-11}
+  s.date = %q{2012-01-12}
   s.description = %q{Renders all asset types (coffeescript/sass/scss) as equals}
   s.email = %q{me@tal.by}
   s.executables = [%q{assette}]
@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
     "examples/public/javascripts/test.coffee",
     "examples/public/javascripts/three.js",
     "examples/public/javascripts/two.js",
+    "examples/public/stylesheets/another2.less",
     "examples/public/stylesheets/less.less",
     "examples/public/stylesheets/one.css",
     "examples/public/stylesheets/one1.sass",
