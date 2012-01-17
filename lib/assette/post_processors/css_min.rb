@@ -1,5 +1,3 @@
-require 'less'
-
 module Assette
   class PostProcessor::CSSMin < Assette::PostProcessor(:css)
 
