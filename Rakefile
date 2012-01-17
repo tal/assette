@@ -23,14 +23,13 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Tal Atlas"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  gem.add_runtime_dependency "rack", '>= 1.4'
-  gem.add_runtime_dependency "thor", '~> 0'
-  gem.add_runtime_dependency "json", '>= 1.4'
-  gem.add_runtime_dependency "sass", '>= 3.1'
-  gem.add_runtime_dependency "less", '>= 2.0'
-  gem.add_runtime_dependency "coffee-script", '~> 2'
-  gem.add_runtime_dependency "uglifier"
-  gem.add_runtime_dependency "mime-types", ">= 1.16"
+  # gem.add_runtime_dependency "rack", '>= 1.4'
+  # gem.add_runtime_dependency "thor", '~> 0'
+  # gem.add_runtime_dependency "json", '>= 1.4'
+  # gem.add_runtime_dependency "sass", '>= 3.1'
+  # gem.add_runtime_dependency "coffee-script", '~> 2'
+  # gem.add_runtime_dependency "uglifier"
+  # gem.add_runtime_dependency "mime-types", ">= 1.16"
 end
 Jeweler::RubygemsDotOrgTasks.new
 
@@ -47,8 +46,8 @@ end
 
 task :default => :spec
 
-require 'yard'
-YARD::Rake::YardocTask.new
+# require 'yard'
+# YARD::Rake::YardocTask.new
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
