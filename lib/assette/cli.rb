@@ -104,7 +104,7 @@ module Assette
         Dir.mkdir('assets')
       end
 
-      sha = Git.open('.').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")
+      sha = Assette.config.cachebuster_string.call
       Assette.config.sha = sha
 
       Assette.config.file_paths.each do |path|

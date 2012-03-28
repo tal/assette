@@ -18,5 +18,9 @@ cache_method 'path'
 minify true
 
 after_compile do |sha|
-  
+  3
 end
+
+# cachebuster_string do
+#   'mysha'
+# end

@@ -19,7 +19,7 @@ module Assette
     SINGLES = %w{asset_dir templates_path template_format cache_method 
       template_preloader template_partial asset_version_file uglifier
       minify less sass}.freeze
-    BLOCKS = %w{after_compile}.freeze
+    BLOCKS = %w{after_compile cachebuster_string}.freeze
     
     OPTIONS = begin
       arr = MULTIPLES.collect do |m|
@@ -41,6 +41,7 @@ module Assette
       :templates_path => 'app/templates',
       :template_format => 'AT.t[{*path*}] = {*template*};',
       :after_compile => Proc.new {},
+      :cachebuster_string => Proc.new {Git.open('.').log.first.sha[0...8] rescue Time.now.strftime("%y%m%d_%H%M%S")},
       :uglifier => {:copyright => false, :mangle => false},
       :less => {},
       :sass => {}
